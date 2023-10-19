@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{../static/style.css}" href="../static/style.css">
+<style>
+ .aa:link, .aa:visited {
+     background-color: #f8e6e0;;
+     color: maroon;
+     padding: 6px 10px;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+      border-radius: 30px;
+}
+ .aa:hover, .aa:active {
+     background-color: #FF4500;
+      border-radius: 30px;
+}
+</style>
+</head>
+<body>
+	<nav th:replace="fragments/navbar :: navbarFragment" ></nav>
+	<div class="con-container" style="text-align: center;">
+	<br><br><br>
+	<h1>상품 등록</h1>
+	<div>
+	<form id="registerPForm" action="registerP" method="post" th:object="${ProductRequestDTO}" onsubmit="return validateForm();">
+	<br><br><br>	
+		<h4>제목 입력</h4>
+		
+		<p><input type="text" th:field="*{ptitle}" placeholder="제목"   class="label-input-spacing1 input_modipw" th:errorclass="error-input"></p>
+		<span th:if="${#fields.hasErrors('ptitle')}" th:errors="*{ptitle}"></span>
+		<!-- 사진 추가 해야 함  -->
+		
+		<h4>가격 입력</h4>
+		<div>
+		<p><input type="number" min="0" max="999999999999" th:field="*{pPrice}" placeholder="가격 등록"  class="label-input-spacing1 input_modipw" th:errorclass="error-input"></p>
+		<span th:if="${#fields.hasErrors('pPrice')}" th:errors="*{pPrice}"></span>  
+		</div>
+		
+		<h4>내용 입력</h4>
+		<div>
+		<textarea form="registerPForm" cols="50" rows="5" th:field="*{pContent}"  class="label-input-spacing1 input_user" th:errorclass="error-input" style="height:100px;"></textarea>
+		<span th:if="${#fields.hasErrors('pContent')}" th:errors="*{pContent}"></span>
+		</div>
+		<!-- 겟 방식의 컨트롤러로 세션에서 추출한 유저 객체 -->
+		<!-- 글을 작성한 유저의 id를 id라는 이름으로 post 메서드에 보내줌  -->
+		<input type="hidden" name="id" th:if="${user != null}" th:value="${user.id}">
+
+		<p><input type="submit" class="w-btn w-btn-gra1 w-btn-gra-anim"></p>
+		
+	</form>
+
+	</div>
+	<br>
+		<a class="aa" href="javascript:history.back()">Go Back</a>
+	</div>
+ <script th:src="@{../static/bootstrap.min.js}"></script>
+ 
+ 
+ <script>
+// 폼 제출 이벤트를 처리하는 함수
+function validateForm() {
+    // 제목, 가격, 내용 필드의 값을 가져옴
+    var ptitle = document.getElementById("ptitle").value;
+    var pPrice = document.getElementById("pPrice").value;
+    var pContent = document.getElementById("pContent").value;
+
+    // 필드가 비어 있는지 확인
+    if (ptitle === "" || pPrice === "" || pContent === "") {
+        alert("필수 입력 필드를 모두 작성해주세요.");
+        return false; // 폼 제출을 막음
+    }
+}
+</script>
+ 
+ 
+ 
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+</html>

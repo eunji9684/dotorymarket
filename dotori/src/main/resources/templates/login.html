@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>도토리마켓 로그인</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        .error-class {
+            color: red;
+        }
+
+        .error-input {
+            border-color: red;
+        }
+    </style>
+</head>
+
+<body class="custom-body" >
+	<div style="display: flex;  justify-content: center; align-items: center;  margin-top:170px;">
+	<div style="margin-right:120px;">
+	<span class="slideshow-container"  >
+                 <div class="Slidesbackground">
+                    <div class="mySlides fade">
+                    <img src="/imgs/dotori2.png" width="600" height="400">
+                    </div>
+                    <div class="mySlides fade">
+                        <img src="../static/imgs/main1.png" width="600" height="400"  >
+                    </div>
+                    <div class="mySlides fade">
+                        <img src="../static/imgs/main3.png" width="600" height="400"  >
+                    </div>
+                    <div class="mySlides fade">
+                         <img src="../static/imgs/main5.png" width="600" height="400"  >
+                    </div>
+                </div>
+             </span>
+            </div> 
+             
+       
+
+  	<div style="margin-right:100px;" >
+    <div class="mx-auto">
+    <h2 class="text-center"><b></b></h2>
+    <hr style="width: 400px; margin: 0 auto;">
+    <br>
+        <form th:action="|@{/{loginType}/login (loginType=${loginType})}|" th:object="${loginRequest}" method="post" >
+            <div class="mb-3" style="margin-top:10px;">
+                <label th:for="uid" class="label-input-spacing"><b>아이디</b> </label>
+                <input type="text" th:field="*{uid}" id="uid" name="uid" class="form-control custom-input "  placeholder="아이디를 입력하세요">
+            </div>
+            
+            <div class="mb-3">
+                <label th:for="upw" class="label-input-spacing"><b>비밀번호 </b> </label>
+                <input type="password" th:field="*{upw}" id="upw" name="upw" class="form-control custom-input "  placeholder="패스워드를 입력하세요">
+            </div>
+            <div th:if="${#fields.hasGlobalErrors()}">
+              
+                <div class="col-md-3"> <!-- 가로폭 조절 -->
+                    <div class="error-class" th:each="error : ${#fields.globalErrors()}" th:text="${error}" style="white-space: nowrap;"></div>
+                </div>
+         
+            </div>
+            <br>
+            <div class ="login-button" style="margin-top:10px;">
+		<button type="submit" class="w-btn w-btn-gra1 w-btn-gra-anim"><b style="font-size:18px;">로그인</b></button>
+</div>
+    
+            
+        </form>
+    </div>
+    
+  
+<!--     <div class="form-check">
+        <div>
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">로그인 상태 유지</label>
+        </div>
+    </div> -->
+    <br>
+    
+	 <hr style="width: 400px; margin: 0 auto;">
+    <p class="easy-login" align="center">간편한 로그인</p>
+    <div class="button-group">
+        <a href="/oauth2/authorization/google" class="btn btn-google btn-lg">
+            <img src="/imgs/google.png" >
+            구글로그인
+        </a>
+        <a href="https://kauth.kakao.com/oauth/authorize?client_id=9dd282ac92f1791f4d6f8b50fb17c7e6&redirect_uri=http://localhost:90/user/kakaoLogin&response_type=code"
+         class="btn btn-kakao btn-lg">
+            <img src="/imgs/kakao.png" >
+            카카오 로그인
+        </a>
+    </div> 
+    <br><br>
+    <footer class="footer1 d-flex justify-content-center">
+        <div class="footer-info">
+            <a th:href="@{/user/find_username}" style="color: black;"><b>아이디 찾기</b></a>
+
+            |<a href="@{/findPassword}" style="color: black;"><b> 비밀번호 찾기 </b></a>|
+<a th:href="@{'/' + ${loginType} + '/sign_up'}" style="color: black;"><b>회원가입</b></a>
+</div>
+    </footer>
+        </div>
+      </div>
+      <script>
+   // 페이지 로드 후 호출
+      window.onload = function () {
+          const typedTextElement = document.querySelector('.text-center b');
+          typedTextElement.innerHTML = "";
+
+         
+          function typeText(text, i, element) {
+              if (i < text.length) {
+                  element.innerHTML += text.charAt(i);
+                  i++;
+                  setTimeout(function () {
+                      typeText(text, i, element);
+                  }, 700); 
+              } else {
+                 
+                  setTimeout(function () {
+                      typedTextElement.innerHTML = "";
+                      typeText("Login Page", 0, typedTextElement);
+                  },300);
+              }
+          }
+
+        
+          typeText("Login Page", 0, typedTextElement);
+      };
+      </script>
+    <script>
+    var slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        
+        slideIndex++;
+        if (slideIndex > slides.length) {
+            slideIndex = 1;
+        }
+
+        slides[slideIndex - 1].style.display = "block";
+
+        // 다음 이미지로 전환하기 전에 setTimeout을 호출
+        setTimeout(function () {
+            showSlides();
+        }, 4000); // 10초마다 다음 이미지로 전환
+    }
+    </script>
+    
+</body>
+</html>

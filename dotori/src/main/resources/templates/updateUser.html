@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+<title th:text="|${pageName}|"></title>
+<style>
+.addrbtn {
+    background:#ffe4e1;
+    margin-left: 10px;
+    border: 1px solid gray;
+    border-radius: 20px;
+    height:38px;
+}
+
+
+</style>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+	crossorigin="anonymous">
+<script th:src="@{../static/bootstrap.min.js}"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+	function findAddress(){
+		new daum.Postcode({
+			oncomplete: function(data){
+				
+				var addr = '';
+				var extraAddr = '';
+				
+				if(data.userSelectedType === 'R'){
+					addr = data.roadAddress;
+				}else{
+					addr = data.jibunAddress;
+				}
+				
+			if(data.userSelectedType === 'R'){
+					if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+						extraAddr += data.bname;
+				}
+					
+				if(data.buildingName !== '' && data.apartment === 'Y'){
+					extraAddr += (extraAddr !== '' ? ',' + data.buildingName : data.buildingName);
+				}	
+				
+				if(extraAddr !== ''){
+					extraAddr = '(' + extraAddr + ')';
+				}
+				
+				document.getElementById("extraAddress").value = extraAddr;
+				
+			}else{
+				document.getElementById("extraAddress").value = '';
+			}
+			
+			document.getElementById('address').value = addr;
+			
+			
+			}
+		}).open();
+	}
+</script>
+<body>
+	<div layout:fragment="content" class="con-container" >
+		<form action="/user/info" id="userInfo" method="post" th:object="${sessionUser}">
+			
+			<br>
+			<br>
+			<br>
+			
+			<span th:if="${sessionUser.uaddress == null}">
+   				 <script th:inline="javascript">
+       			 /* Thymeleaf에서 변수를 JavaScript로 전달 */
+        		var uaddress = [[${sessionUser.uaddress}]];
+        
+       			 /* 주소가 null인 경우 경고를 띄움 */
+      				  if (uaddress === null) {
+           		 alert('주소가 없습니다. 주소를 설정해주세요');
+        }
+    </script>
+</span>
+			
+			<h2>회원 정보</h2>
+		
+			<br>
+		
+			<input name="id" th:value="${sessionUser.id}" type="hidden" readonly="readonly">
+		
+			<div class="input_user mb-3"  >
+			<label for="uid" class="label-input-spacing"  style=" align-items: center;"><b>아이디</b></label>
+			<input name="uid" readonly="readonly" th:value="${sessionUser.uid} " type="text" class="input_user1 label-input-spacing" style="text-align: center;">
+			</div>
+			<div class="input_user mb-3"  style="align-items: center;" th:if="${sessionUser.usocial == false}">
+    			<label for="upw" class="label-input-spacing"><b>비밀번호</b></label>
+    			<input name="upw" readonly="readonly" th:value="${sessionUser.upw}" type="password" class="input_user1 label-input-spacing" style="text-align: center;">
+			</div>
+			<div class="input_user mb-3"   style= "align-items: center;">
+			<label for="uname" class="label-input-spacing"><b>이름</b></label>
+			<input name="uname" readonly="readonly" th:value="${sessionUser.uname}" type="text" class="input_user1 label-input-spacing" style="text-align: center;">
+			</div>
+			<div class="input_user mb-3"  style=" align-items: center;" >
+			<label for="uemail" class="label-input-spacing"><b>이메일</b></label>
+			<input name="uemail" readonly="readonly" th:value="${sessionUser.uemail}" type="text" class="input_user1 label-input-spacing" style="text-align: center;">
+			</div>
+			<div class="mb-2"  >
+			<label for="uaddress" class="label-input-spacing" style="font-size:17px"><b>주소</b></label>
+			<input type="button" class="addrbtn" onclick="findAddress()" value="주소 검색" >
+			<input name="uaddress" id="address" th:value="${sessionUser.uaddress}" type="text" class="form-control" readonly="readonly" style="text-align: center;  height: 40px; 
+        margin: 5px;
+        border: 3px solid #ff8080;
+        border-radius: 50px;
+        outline: none;
+        font-family: sofia-pro-soft, sans-serif;
+        font-weight: 2px;
+        font-size: 15px;
+        text-align: center;
+        text-align-last: center;">
+        	<input type="hidden" id="extraAddress">
+        	
+			</div>
+			<br>
+			<br>
+			<button type="submit" class="w-btn w-btn-gra1 w-btn-gra-anim"><b>주소 수정하기</b></button>
+		<br><br>
+		</form>
+			<div th:if="${sessionUser.upw != null and not #strings.isEmpty(sessionUser.upw)}">
+			<button th:onclick="|location.href = '@{/user/modifyPassword}'|" class="w-btn w-btn-gra1 w-btn-gra-anim">
+				<b>비밀번호 변경</b>
+			</button>
+			</div>
+
+	</div>
+
+</body>
+</html>
+		
+		

@@ -1,0 +1,755 @@
+<!-- src/main/resources/templates/productDetail.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Product Detail</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" th:href="@{../static/style.css}"
+	href="../static/style.css">
+<style>
+.pl {
+	display: flex;
+	align-items: center; /* 세로 중앙 정렬 */
+	justify-content: center; /* 수평으로 나란히 정렬 */
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
+.con-container {
+	margin-bottom: 30px;
+}
+
+/* 댓글 또는 대댓글 컨테이너 스타일 */
+.comment-container {
+	
+	text-align: left;
+	border-top: 1px solid #ccc; /* 위 구분선 */
+	border-bottom: 1px solid #ccc; /* 아래 구분선 */
+	padding: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left:10px;
+	margin-right:10px;
+}
+
+.comment-action {
+	display: flex; /* flex 컨테이너로 설정하여 자식 요소를 일렬로 배치 */
+	gap: 10px; /* 버튼 사이의 간격을 조절 */
+}
+
+.close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 10px;
+	cursor: pointer;
+}
+
+.register-re-div {
+	border-top: 1px solid #ccc; /* 위 구분선 */
+	border-bottom: 1px solid #ccc; /* 아래 구분선 */
+	padding: 10px;
+	padding: 100px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	margin-left: 50px;
+	margin-right: 50px;
+}
+
+.edit-re-div {
+	width: 100%; /* Set the width to 100% of its container */
+	padding: 10px; /* Add padding for better spacing */
+	border: 1px solid #ccc; /* Add a border for a defined boundary */
+	border-radius: 5px; /* Add rounded corners */
+	resize: vertical; /* Allow vertical resizing */
+	box-sizing: border-box;
+	/* Include padding and border in the element's total width */
+	font-size: 16px; /* Adjust the font size as needed */
+}
+
+.reply-user {
+	font-weight: bold;
+	color: #007bff;
+	background-color: #f0f0f0;
+	padding: 3px 8px;
+	border-radius: 5px;
+}
+
+.datbtn{
+	 background-color: #72B08E;
+	 width:100px;
+}
+.closebtn{
+	 background-color: #cc99ff;
+}
+.modybtn{
+	 background-color: #99ccff;
+}
+
+</style>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous"></script>
+<script>
+	$(document)
+			.ready(
+					function() {
+
+						const likeForm = $('#like-form');
+						const likeButton = likeForm.find('#like-button');
+
+						const likeForm2 = $('#like-form2');
+						const likeButton2 = likeForm2.find('#like-button2');
+
+						/*const delReForm = $('#del-re-form');*/
+
+						likeForm.on('submit', function(e) {
+							e.preventDefault();
+
+							$.ajax({
+								type : 'POST',
+								url : '/addLike',
+								dataType : 'json',
+								data : likeForm.serialize(),//데이터 폼 전송
+								success : function(response) {
+									if (response.success) {
+										//성공적인경우 버튼 업데이트하기
+
+										alert('상품을 찜했습니다.');
+										likeButton.css('display', 'none');
+										likeButton2.css('display', 'block');
+										//window.location.reload();
+										$('#like-form').addCss
+										
+									} else {
+
+										console.error('서버오류: '
+												+ response.message);
+										alert('로그인이 필요합니다.');
+										window.location.href = '/user/login';
+									}
+								},
+								error : function(xhr, status, error) {
+									//xhr : ajax오류
+									//status : http 오류
+									//error : 오류정보
+									console.error('맨 끝 에러 : ' + error);
+								}
+
+							});
+							//console.log('test')
+
+						})
+
+						likeForm2.on('submit', function(e) {
+							e.preventDefault();
+
+							$.ajax({
+								type : 'POST',
+								url : '/removeLike',
+								dataType : 'json',
+								data : likeForm2.serialize(),
+								success : function(response) {
+									if (response.success) {
+
+										alert('찜이 취소되었습니다.');
+										likeButton.css('display', 'block');
+										likeButton2.css('display', 'none');
+										window.location.reload();
+
+									} else {
+
+										console.error('서버오류: '
+												+ response.message);
+										alert('로그인이 필요합니다.');
+										window.location.href = '/user/login';
+									}
+								},
+								error : function(xhr, status, error) {
+									//xhr : ajax오류
+									//status : http 오류
+									//error : 오류정보
+									console.error('맨 끝 에러 : ' + error);
+								}
+							})
+
+						})
+
+						$('.del-re-form').on(
+								'submit',
+								function(e) {
+									e.preventDefault();
+
+									var delReForm = $(this); // 현재 폼을 선택합니다.
+									// 확인 대화 상자를 띄우고 사용자의 선택을 확인합니다.
+								    var confirmed = confirm('삭제하시겠습니까?');
+
+									if(confirmed){
+										
+									$.ajax({
+										type : 'POST',
+										url : '/deleteReply',
+										dataType : 'json',
+										data : delReForm.serialize(), // 데이터 폼 전송
+										success : function(response) {
+											if (response.success) {
+												// 성공적인 경우 버튼 업데이트하기
+												alert('댓글을 삭제했습니다.');
+												window.location.reload();
+											} else {
+												console.error('서버 오류: '
+														+ response.message);
+												window.location.reload();
+											}
+										},
+										error : function(xhr, status, error) {
+											console.error('맨 끝 에러: ' + error);
+										}
+									});
+									}
+								});
+
+						$('.edit-re-form').on(
+								'submit',
+								function(e) {
+									e.preventDefault();
+
+									var editReForm = $(this); // 현재 폼을 선택합니다.
+									// 확인 대화 상자를 띄우고 사용자의 선택을 확인합니다.
+								    var confirmed = confirm('수정하시겠습니까?');
+
+									if(confirmed){
+										
+									$.ajax({
+										type : 'POST',
+										url : '/editReply',
+										dataType : 'json',
+										data : editReForm.serialize(), // 데이터 폼 전송
+										success : function(response) {
+											if (response.success) {
+												// 성공적인 경우 버튼 업데이트하기
+												alert('댓글을 수정했습니다.');
+												window.location.reload();
+											} else {
+												console.error('서버 오류: '
+														+ response.message);
+												window.location.reload();
+											}
+										},
+										error : function(xhr, status, error) {
+											console.error('맨 끝 에러: ' + error);
+										}
+									});
+									}
+								});
+
+						$('.edit-button')
+								.on(
+										'click',
+										function(e) {
+											e.preventDefault();
+
+											var editButton = $(this); // 현재 버튼을 선택합니다.
+											var editModal = this.parentElement.nextElementSibling; // 다음 형제 요소인 수정 폼 div
+
+											if (editModal.style.display === 'none'
+													|| editModal.style.display === '') {
+												editModal.style.display = 'block'; // 수정 폼 보이기
+											}
+
+										});
+
+						$('.cancleEdit')
+								.on(
+										'click',
+										function(e) {
+											e.preventDefault();
+
+											var cancleEditButton = $(this); // 현재 버튼을 선택합니다.
+											var editDiv = this.parentElement.parentElement.parentElement; // 조부모 요소인 수정 폼 div
+
+											if (editDiv.style.display === 'block') {
+												editDiv.style.display = 'none'; // 수정 폼 안 보이게
+											}
+
+										});
+
+						$('.register-re-form').on('submit', function(e) {
+							e.preventDefault();
+
+							var registerReForm = $(this); // 현재 폼을 선택합니다.
+
+							$.ajax({
+								type : 'POST',
+								url : '/registerReply',
+								dataType : 'json',
+								data : registerReForm.serialize(), // 데이터 폼 전송
+								success : function(response) {
+									if (response.success) {
+										// 성공적인 경우 버튼 업데이트하기
+										alert('댓글을 등록했습니다.');
+										window.location.reload();
+									} else {
+										alert('내용을 입력해주세요.')
+										window.location.reload();
+									}
+								},
+								error : function(xhr, status, error) {
+									console.error('맨 끝 에러: ' + error);
+								}
+							});
+						});
+
+						$('.reply-reply-form').on('submit', function(e) {
+							e.preventDefault();
+
+							var registerReForm = $(this); // 현재 폼을 선택합니다.
+							// 확인 대화 상자를 띄우고 사용자의 선택을 확인합니다.
+						    var confirmed = confirm('등록하시겠습니까?');
+							
+							if(confirmed){
+								
+							$.ajax({
+								type : 'POST',
+								url : '/replyOnReply',
+								dataType : 'json',
+								data : registerReForm.serialize(), // 데이터 폼 전송
+								success : function(response) {
+									if (response.success) {
+										// 성공적인 경우 버튼 업데이트하기
+										alert('댓글을 등록했습니다.');
+										window.location.reload();
+									} else {
+										alert('내용을 입력해주세요.')
+										window.location.reload();
+									}
+								},
+								error : function(xhr, status, error) {
+									console.error('맨 끝 에러: ' + error);
+								}
+							});
+							}
+						});
+
+						$('.re-re-button')
+								.on(
+										'click',
+										function(e) {
+											e.preventDefault();
+
+											var editButton = $(this); // 현재 버튼을 선택합니다.
+											var editModal = this.parentElement.nextElementSibling.nextElementSibling; // 다음 형제 요소인 수정 폼 div
+
+											if (editModal.style.display === 'none'
+													|| editModal.style.display === '') {
+												editModal.style.display = 'block'; // 수정 폼 보이기
+											}
+
+										});
+						
+						const purForm = $('#purForm');
+						const purButton = purForm.find('#purBu1');
+
+						const purForm2 = $('#purForm2');
+						const purButton2 = purForm2.find('#purBu2');
+						
+						$(document).ready(function() {
+						    $('#purBu1').on('click', function(e) {
+						        e.preventDefault(); // 폼 제출 방지
+
+						        $.ajax({
+						            type: 'POST',
+						            url: '/addPurchase',
+						            data: $('#purForm').serialize(),
+						            dataType: 'json',
+						            success: function(response) {
+						                if (response.success) {
+						                    alert('판매완료 되었습니다');
+						                    
+						                    
+						                    window.location.reload();
+						                    
+						                } else {
+						                    alert('판매완료 실패');
+						                }
+						            },
+						            error: function(xhr, status, error) {
+						                console.error('에러: ' + error);
+						            }
+						        });
+						    });
+						    
+						    $('#purBu2').on('click', function(e) {
+						        e.preventDefault(); // 폼 제출 방지
+
+						        $.ajax({
+						            type: 'POST',
+						            url: '/removePurchase',
+						            data: $('#purForm2').serialize(),
+						            dataType: 'json',
+						            success: function(response) {
+						                if (response.success) {
+						                    alert('판매완료 취소되었습니다');
+						                    window.location.reload();
+						                    
+						                } else {
+						                    alert('판매완료 취소 실패');
+						                }
+						            },
+						            error: function(xhr, status, error) {
+						                console.error('에러: ' + error);
+						            }
+						        });
+						    });
+						});
+
+					})
+					
+
+	
+</script>
+</head>
+
+<body>
+
+	<nav th:replace="fragments/navbar :: navbarFragment"></nav>
+	<div class="con-container" style="text-align: center;">
+		<br> <br>
+		<!-- 상품의 상세 정보 표시 -->
+		<div>
+			<div
+				style="display: flex; align-items: center; /* 세로 중앙 정렬 */ justify-content: center;">
+
+				<h1>Product Detail</h1>
+				<br>
+				<button onclick="history.back()" class="w-btn w-btn-green"
+					style="margin-top: 10px; margin-left: 30px; width: 110px; text-decoration: none;">뒤로가기</button>
+			</div>
+			<br>
+
+			<!-- Display the form only if user is not null and their role is ADMIN or product.userId equals user.id -->
+			<div
+				th:if="${user != null and (user.role == T(com.fullstack2.dotori.userEntity.UserRole).ADMIN or product.userId == user.id)}">
+
+
+
+				<div class="pl">
+					<!-- modifyP에 get 컨트롤러에 product정보를 넘겨줌. -->
+					<form action="/productModify" method="get" th:object="${product}">
+						<input type="hidden" name="productId" th:field="*{productId}">
+						<input type="submit" value="글 수정하기" class="w-btn w-btn-green"
+							style="margin-right: 30px; width: 110px;">
+					</form>
+
+
+					<!-- 글 삭제 -->
+					<form action="/productDelete" method="post" th:object="${product}"
+						onsubmit="return confirm('정말로 삭제하시겠습니까?');">
+						<input type="hidden" name="productId" th:field="*{productId}">
+						<input type="submit" class="w-btn w-btn-green" value="글 삭제하기"
+							style="width: 110px;">
+					</form>
+				</div>
+
+
+				<div style="border: 1px;">
+					<!-- 이미지 업데이트 -->
+					<h5>사진 변경</h5>
+					<br>
+					<form action="/uploadImage" method="post"
+						enctype="multipart/form-data">
+						<input type="file" name="imageFile" accept="image/*">
+						<!-- 상품 ID를 hidden input으로 추가 -->
+						<input type="hidden" name="productId"
+							th:value="${product.productId}"> <input type="submit"
+							value="Upload Image" class="w-btn w-btn-green"
+							style="width: 150px;">
+					</form>
+				</div>
+			</div>
+
+
+
+		</div>
+
+		<br> <br>
+		<!-- 상품 제목 -->
+		<div>
+				<div  style="display: flex; 
+    justify-content: center;"  th:if="${user != null and user.id != product.userId}">
+    
+		<h3 th:text="${product.ptitle}" style="margin-left:130px;"></h3>
+			<h6 style="margin-right:15px; margin-top:5px; margin-left:50px; color: #cc6666;"><b>찜하기</b></h6>
+			<form method="post" action="addLike" id="like-form" th:object="${product}"
+				th:if="${!session.isProductLiked}">
+				
+				<input type="hidden" name="productId" th:field="*{productId}">
+				<button class="like-button" type="submit" id="like-button">
+    				<img src="../static/imgs/binht.png" alt="찜하기">
+				</button>
+			</form>
+			
+			<form method="post" action="removeLike" id="like-form2" th:object="${product}"
+				th:if="${session.isProductLiked}">
+				<input type="hidden" name="productId" th:field="*{productId}">
+				<button class="like-button2" type="submit" id="like-button2">
+					<img src="../static/imgs/heart.png" alt="찜취소">
+				</button>
+			</form>
+		</div>
+			
+		</div>
+		<br> <br>
+		
+		<!-- 상품 이미지 -->
+		<!-- 이 때 ${product.pictureUrl}의 값은 18ff56a5-d5e0-4258-9af3-c9ea378fbf66_꼬부기.jpg 이런 식이다. -->
+		<!-- 아래 경로는 WebConfig에서 설정한대로 E:\\uploadEx\\18ff56a5-d5e0-4258-9af3-c9ea378fbf66_꼬부기.jpg 를 나타낸다. -->
+		<img th:src="@{'/uploads/' + ${product.pictureUrl}}" alt="Image">
+		<br> <br> <br>
+		<!-- 상품 가격 -->
+		<div>
+			<h4>
+				가격: <span th:text="${product.pPrice}"></span>
+			</h4>
+		</div>
+		<br> <br>
+		
+		<!-- 상품 설명 -->
+		<div>
+			<p th:text="${product.pContent}"></p>
+		</div>
+		
+		<div class="horizontal-align-container" style="margin-top: 80px;">
+			<!-- 조회 수 -->
+			<div style="margin-right: 50px;">
+				조회수 : <span th:text="${product.viewCount}"></span>
+			</div>
+
+			<!-- 좋아요 수 -->
+			<div style="margin-right: 50px;">
+
+				추천수 : <span th:text="${product.likeCount}"></span>
+			</div>
+
+			<!-- 구매 여부 -->
+			<div>
+				판매상태 : 
+				<span th:text="${product.purchaseDone} ? '판매완료' : '판매중'"></span>
+				
+				<form id="purForm" method="post" action="addPurchase" th:object="${product}">
+					<input type="hidden" name="productId" th:field="*{productId}">
+				<button th:if="${user != null and user.id == product.userId and product.purchaseDone == false}" id="purBu1" type="submit">
+				판매완료
+				</button>
+				</form>
+				
+				<form id="purForm2" method="post" action="removePurchase" th:object="${product}">
+					<input type="hidden" name="productId" th:field="*{productId}">
+				<button th:if="${user != null and user.id == product.userId and product.purchaseDone == true}" 
+				id="purBu2" type="submit">
+				판매완료 취소
+				</button>
+				</form>
+				
+				
+			</div>
+		</div>
+
+
+		<br> <br><br>
+		<h3 style="text-align: center;">댓글</h3>
+		
+		<br>
+		<br>
+		<div th:if ="${replies.isEmpty()}">등록된 댓글이 없습니다.</div>
+		
+		
+		<th:block th:each="reply : ${replies}">
+			<!-- 댓글 뿌리기 -->
+			<div th:inline="text" style="text-align: left;"
+				class="comment-container">
+				<span class="reply-user" style="text-align: right;">[[${reply.user.uname}]]</span>
+				<span class="reContent-style" th:inline="text"
+					style="display: inline-block;" "margin-bottom:10px;">[[${reply.reContent}]]</span>
+
+
+				<!-- 답글, 삭제, 수정 버튼을 감싼 div  -->
+				<div class="comment-action" th:if="${user != null}" style="margin-top:15px;">
+
+					<button class="re-re-button" style="background:yellow;" th:if="${user != null}">└답글</button>
+
+					<form method="post" action="deleteReply" class="del-re-form"
+						th:object="${reply}">
+						<input type="hidden" id="reId" name="reId" th:value="*{reId}">
+						<button id="del-re-button" type="submit"
+							th:if="${user.id == reply.user.id or user.role == T(com.fullstack2.dotori.userEntity.UserRole).ADMIN}"
+							style="display: inline-block;">삭제</button>
+					</form>
+
+					<button class="edit-button modybtn"
+						th:if="${user.id == reply.user.id or user.role == T(com.fullstack2.dotori.userEntity.UserRole).ADMIN}"
+						style="display: inline-block;">수정</button>
+				</div>
+				<!-- 답글, 삭제, 수정 버튼을 감싼 div 끝 -->
+
+				<!-- 수정 버튼을 누르면 나오는 수정 div -->
+				<div class="edit-div" style="display: none" th:if="${user != null}">
+					<form method="post" action="editReply" class="edit-re-form"
+						th:object="${reply}">
+						<input type="hidden" id="reId" name="reId" th:value="*{reId}">
+						<textarea cols="20" rows="5" name="reContent" class="edit-re-div"
+							th:value="*{reContent}"></textarea>
+
+						<div class="comment-action">
+							<button id="edit-re-button" type="submit" class="modybtn"
+								th:if="${user.id == reply.user.id or user.role == T(com.fullstack2.dotori.userEntity.UserRole).ADMIN}">수정</button>
+
+							<!-- 추가된 취소 버튼 -->
+							<button type="button" class="cancleEdit closebtn">취소</button>
+						</div>
+					</form>
+				</div>
+				<!-- 수정 버튼을 누르면 나오는 수정 div 끝-->
+
+				<!-- 답글 버튼을 누르면 나오는 답글 div  -->
+				<div class="reply-reply-div" style="display: none" th:if="${user != null}">
+					<form method="post" action="replyOnReply" class="reply-reply-form"
+						th:object="${reply}">
+						<!-- 부모 댓글의 id를 hidden input으로 추가 -->
+						<input type="hidden" id="reId" name="reId" th:value="*{reId}">
+						<!-- 상품 ID를 hidden input으로 추가 -->
+						<input type="hidden" name="productId"
+							th:value="${product.productId}">
+						<!-- 유저 id를 hidden input으로 추가 -->
+						<input type="hidden" name="id" th:value="${user.id}">
+						<!-- 댓글 내용 -->
+						<textarea cols="20" rows="5" name="reContent" class="edit-re-div"
+							th:value="*{reContent}" placeholder="댓글을 남겨보세요."></textarea>
+						<div class="comment-action">
+							<button type="submit" th:if="${user != null}" class="datbtn">등록</button>
+
+
+							<button type="button" class="cancleEdit closebtn">취소</button>
+						</div>
+					</form>
+				</div>
+				<!-- 답글 버튼을 누르면 나오는 답글 div 끝 -->
+
+
+			</div>
+			<!-- 댓글 뿌리기 끝-->
+
+
+
+			<!-- 대댓글 뿌리기-->
+			<div th:fragment="f_call(reply)"
+				th:unless="${#lists.isEmpty(reply.children)}">
+				<div th:each="child : ${reply.children}" th:inline="text"
+					style="text-align: left; margin-left: 20px; padding: 10px; border: 1px solid #ccc; margin-top: 10px; background-color: #eee;">
+					<span class="reply-user" style="text-align: right;">[[${child.user.uname}]]</span>
+					<span class="reContent-style">└[[${child.reContent}]]</span>
+
+					<!-- 답글, 삭제, 수정 버튼을 감싼 div  -->
+					<div class="comment-action" th:if="${user != null}">
+
+						<button class="re-re-button" th:if="${user != null}" style="background:yellow;">└답글</button>
+
+						<form method="post" action="deleteReply" class="del-re-form"
+							th:object="${child}">
+							<input type="hidden" id="reId" name="reId" th:value="*{reId}">
+							<button id="del-re-button" type="submit" 
+								th:if="${user.id == child.user.id or user.role == T(com.fullstack2.dotori.userEntity.UserRole).ADMIN}">삭제</button>
+						</form>
+
+
+						<button class="edit-button"
+							th:if="${user.id == child.user.id or user.role == T(com.fullstack2.dotori.userEntity.UserRole).ADMIN}">수정</button>
+					</div>
+					<!-- 답글, 삭제, 수정 버튼을 감싼 div 끝 -->
+
+
+					<!-- 수정 버튼을 누르면 나오는 수정 div -->
+					<div class="edit-div" style="display: none" th:if="${user != null}">
+						<form method="post" action="editReply" class="edit-re-form"
+							th:object="${child}" >
+							<input type="hidden" id="reId" name="reId" th:value="*{reId}">
+							<textarea cols="20" rows="5" name="reContent" class="edit-re-div"
+								th:value="*{reContent}"></textarea>
+
+							<div class="comment-action">
+								<button id="edit-re-button" type="submit"
+									th:if="${user.id == child.user.id or user.role == T(com.fullstack2.dotori.userEntity.UserRole).ADMIN}">수정</button>
+
+								<!-- 추가된 취소 버튼 -->
+								<button type="button" class="cancleEdit closebtn">취소</button>
+							</div>
+
+						</form>
+					</div>
+					<!-- 수정 버튼을 누르면 나오는 수정 div 끝-->
+
+					<!-- 답글 버튼을 누르면 나오는 답글 div  -->
+					<div class="reply-reply-div" style="display: none" th:if="${user != null}">
+						<form method="post" action="replyOnReply" class="reply-reply-form"
+							th:object="${child}">
+							<!-- 부모 댓글의 id를 hidden input으로 추가 -->
+							<input type="hidden" id="reId" name="reId" th:value="*{reId}">
+							<!-- 상품 ID를 hidden input으로 추가 -->
+							<input type="hidden" name="productId"
+								th:value="${product.productId}">
+							<!-- 유저 id를 hidden input으로 추가 -->
+							<input type="hidden" name="id" th:value="${user.id}">
+							<!-- 댓글 내용 -->
+							<textarea cols="20" rows="5" name="reContent" class="edit-re-div"
+								th:value="*{reContent}" placeholder="댓글을 남겨보세요."></textarea>
+							<div class="comment-action">
+								<button type="submit" th:if="${user != null}" class="datbtn">등록</button>
+
+
+								<button type="button" class="cancleEdit">취소</button>
+							</div>
+						</form>
+					</div>
+					<!-- 답글 버튼을 누르면 나오는 답글 div 끝 -->
+
+
+					<div th:replace="this::f_call(${child})"></div>
+				</div>
+			</div>
+			<!-- 대댓글 뿌리기 끝-->
+		</th:block>
+
+		<!-- 댓글 작성란 -->
+
+		<div class="register-re-div" th:if="${user != null}">
+			<form method="post" action="registerReply" class="register-re-form">
+				<!-- 상품 ID를 hidden input으로 추가 -->
+				<input type="hidden" name="productId"
+					th:value="${product.productId}">
+				<!-- 유저 id를 hidden input으로 추가 -->
+				<input type="hidden" name="id" th:value="${user.id}">
+				<strong>[[${user.uname}]]</strong>
+				<textarea cols="20" rows="5" id="reContent" name="reContent"
+					th:value="*{reContent}" placeholder="댓글을 남겨보세요."></textarea>
+				<button id="register-re-button" type="submit" class="datbtn">등록</button>
+			</form>
+		</div>
+
+
+
+
+	</div>
+
+	<!-- 뒤로 가기 링크 -->
+
+
+	<script th:src="@{../static/bootstrap.min.js}"></script>
+	<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+</html>

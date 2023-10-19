@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>공지사항 상세 정보</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+    <script th:src="@{/bootstrap.min.js}"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            margin-top:100px;
+            height:600px;
+        }
+
+        .page-title {
+            margin-top: 20px;
+            margin-bottom: 30px;
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center; /* 가운데 정렬 */
+        }
+
+        .section {
+            margin-bottom: 20px;
+            text-align: center; /* 가운데 정렬 */
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .section-content {
+            font-size: 20px;
+            color: #555;
+        }
+         .centered-hr {
+            width: 500px;
+            margin: 0 auto; /* 좌우 가운데 정렬 */
+            margin-top:10px;
+            margin-bottom:10px;
+            border: 2px solid #ff968a;
+        }
+       .w-btn-green.btn:hover {
+    background-color: #cce2c8 !important; /* 호버시 배경색을 변경 */
+    border: none !important; /* 테두리 제거 */
+    color: black;/* 텍스트 색상 변경 (원래 스타일로) */
+}
+        
+        
+    </style>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <div class="page-title">
+        <h1 class="my-3 border-bottom pb-2">공지사항 상세</h1>
+    </div>
+
+    <div class="section">
+        <div class="section-title">제목</div>
+        
+		<hr class="centered-hr">
+
+        <div class="section-content mx-auto" th:text="${noticeEntity.title}" style="  border: 1px solid #ffccb6;
+    
+    border-radius: 50px; width:500px; height:30px;"></div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">내용</div>
+        	<hr class="centered-hr">
+        <div class="section-content mx-auto" th:utext="${noticeEntity.content}" style="  border: 1px solid #ffccb6;
+    padding: 20px; 
+    border-radius: 50px; width:500px; height:150px;"></div>
+    </div>
+
+ <div class="center-button" style="margin-top:50px;">
+        <!-- 이 부분에서 버튼 클래스를 추가하여 원래 스타일을 적용합니다. -->
+        <a th:href="@{/notices/list}" class="w-btn w-btn-green btn ">
+            목록으로
+        </a>
+        </div>
+</div>
+<script th:src="@{/bootstrap.min.js}"></script>
+</body>
+</html>

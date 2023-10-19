@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>아이디 찾기 결과</title>
+     <style>
+        /* 아이디를 찾은 결과의 밑줄 색상 설정 */
+        h2 span {
+            text-decoration: underline;
+            color: blue; /* 원하는 색상으로 변경 */
+        }
+    </style>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+            crossorigin="anonymous">
+    <script th:src="@{../static/bootstrap.min.js}"></script>
+</head>
+<body>
+<div layout:fragment="content" class="con-container" style="text-align: center;">
+    <br><br><br><br><br>
+    <h1>아이디 찾기 결과</h1>
+    <br><br><br><br><br><br>
+    <!-- 결과를 출력할 엘리먼트 -->
+    <div th:if="${foundUsername != null}">
+        <h2><p>찾으신 아이디는  <span th:text="${foundUsername}"></span> 입니다.</p></h2>
+    </div>
+    <div th:if="${foundUsername == null}">
+        <h2><p style="color:red;">아이디를 찾을 수 없습니다.</p></h2>
+    </div>
+</div>
+</body>
+</html>

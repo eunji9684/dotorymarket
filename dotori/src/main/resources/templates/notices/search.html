@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>검색 결과</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+          crossorigin="anonymous">
+</head>
+<body>
+<nav th:replace="fragments/navbar :: navbarFragment"></nav>
+<div layout:fragment="content" class="container my-3">
+    <h2 style="text-align: center; margin-top: 20px;">검색 결과</h2>
+
+    <form th:action="@{/notices/search}" method="get" class="d-flex justify-content-center mt-3">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="검색어를 입력하세요" name="keyword"
+                   style="width: 500px;">
+            <button class="btn btn-primary" type="submit">검색</button>
+        </div>
+    </form>
+
+    <table class="table mx-auto">
+        <thead class="bs-danger-bg-subtle">
+        <tr class="text-center">
+            <th>번호</th>
+            <th>글쓴이</th>
+            <th>제목</th>
+            <th>작성일시</th>
+            <th>조회</th>
+            <th>추천</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 검색 결과를 반복해서 표시 -->
+        <tr th:each="notice, loop : ${notices}" th:class="${loop.index % 2 == 0} ? 'even' : 'odd'">
+            <td class="text-center" th:text="${loop.index + 1}"></td>
+            <td class="text-center">
+                <span th:text="${notice.author}"></span>
+            </td>
+            <td class="text-center">
+                <a th:href="@{|/notices/detail/${notice.id}|}" th:text="${notice.title}"></a>
+            </td>
+            <td class="text-center" th:text="${notice.createDate != null ? #dates.format(notice.createDate, 'yyyy-MM-dd HH:mm') : ''}"></td>
+            <td class="text-center">
+                <span th:text="${notice.views}"></span>
+            </td>
+            <td class="text-center">
+                <span th:text="${notice.likes}"></span>
+            </td>
+            <td class="text-center">
+                <a th:href="@{|/notices/edit/${notice.id}|}" class="btn btn-sm btn-warning"
+                   style="margin-right:15px;">수정</a>
+                <form th:action="@{|/notices/delete/${notice.id}|}" method="post">
+                    <button type="submit" class="btn btn-sm btn-danger"
+                            onclick="return confirm('정말로 삭제하시겠습니까?')">삭제
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 페이징 처리 시작 -->
+    <div th:if="${notices.totalPages > 1}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${notices.hasPrevious}

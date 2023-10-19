@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+<title th:text="|${pageName}|"></title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+	crossorigin="anonymous">
+<script th:src="@{../static/bootstrap.min.js}"></script>
+
+
+
+
+</head>
+<body>
+
+	<div  layout:fragment="content" class="con-container" style="text-align: center;">
+		<!--  
+		<h1>
+			<a th:href="|{loginType}|">[[${pageName}]]</a>
+		</h1>
+		-->
+	
+		<div th:if="${user == null}"  class="home1">
+		<br><br><br><br><br><br><br>
+			<h3 style="margin-bottom:100px">로그인 되어있지 않습니다!</h3>
+			<button th:onclick="|location.href='@{/user/sign_up}'|" class="w-btn-neon2">
+				회원가입
+			</button>
+			<br><br><br><br>
+			<button th:onclick="|location.href='@{/user/login}'|" class="w-btn-neon2">
+				로그인
+			</button>
+			
+		</div>
+		<div th:unless="${user == null}" class="home1">
+		<br><br><br><br><br>
+			<h3 style="margin-bottom:100px"><b style="font-size:45px; color:darkslategray; border-bottom: 1px solid;">[[${user.uname}]]</b>
+			 <span th:if="${loginType == T(com.fullstack2.dotori.userEntity.UserRole).ADMIN}">(관리자)</span>
+     님 환영합니다.</h3>
+			<button th:onclick="|location.href='@{/user/info}'|" class="w-btn-neon2">
+			유저 정보
+			</button>
+			
+			<br><br><br><br>
+			
+			
+			
+			<br><br>
+			
+			<button th:onclick="|location.href='@{/user/logout}'|" class="w-btn-neon2">
+			로그아웃
+			</button>
+		</div>
+		
+	</div>
+
+</body>
+</html>

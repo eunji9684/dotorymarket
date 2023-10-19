@@ -1,0 +1,705 @@
+@charset "UTF-8";
+
+/* 전체 텍스트 필드 너비 100%로 설정 */
+textarea {
+    width: 100%;
+}
+
+/* 제출 버튼 위쪽 여백 추가 */
+input[type=submit] {
+    margin-top: 10px;
+}
+
+
+/* 컨텐츠 영역 위에 고정 배경 이미지 적용 */
+.custom-body {
+    background-image: url('../static/imgs/nuts.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+html, body{cursor:url('../static/imgs/toto3.png'),auto;}
+div, input, a ,p{
+    cursor: url('../static/imgs/toto3.png'), auto;
+}
+
+li:hover{
+	cursor:url('../static/imgs/toto3.png'),auto;
+}
+
+button:hover{
+	cursor:url('../static/imgs/toto3.png'),auto;
+}
+.logo{
+	 margin-left: 70px;
+}
+/* Navbar 로고 스타일 수정 */
+.navbar-brand {
+    color: #563834;
+   
+}
+
+.navbar{
+	margin-right:1px;
+}
+
+.container.my-2 {
+		
+            margin-left: 300px;
+        }
+        
+.mb-2{
+	width:500px;
+	 margin-left: auto;
+    margin-right: auto;
+}
+
+.mb-3{
+    width:400px;
+    margin-left:auto;
+    margin-right:auto;
+   
+}
+.input_user{
+	
+	width:400px;
+    margin-left:auto;
+    margin-right:auto;
+       
+}
+
+
+
+   .input_user1{
+	
+        height: 40px;
+        margin: 5px;
+        border: 3px solid #ff8080;
+        border-radius: 50px;
+        outline: none;
+        font-family: sofia-pro-soft, sans-serif;
+        font-weight: 2px;
+        font-size: 20px;
+        text-align: center;
+        text-align-last: center;
+}
+
+
+
+.input_modipw{
+	width:300px;
+	height:50px;
+    margin-left:auto;
+    margin-right:auto;
+     border: none; 
+     border-bottom: 2px solid #8ec7ff;
+     outline: none;
+       text-align: center;
+   background-color: transparent;
+}
+
+    .input_modipw:focus {
+            border-bottom: 2px solid #0000a0; /* 클릭하면 밑줄 색상 변경 */
+            outline: none;
+        }
+        
+/*상품수정하기 버튼*/
+.input_modipw1{
+	width:300px;
+	height:30px;
+    margin-left:auto;
+    margin-right:auto;
+     border: none; 
+     border-bottom: 2px solid #8ec7ff;
+     outline: none;
+       text-align: center;
+   background-color: transparent;
+}
+
+    .input_modipw1:focus {
+            border-bottom: 2px solid #0000a0; /* 클릭하면 밑줄 색상 변경 */
+            outline: none;
+        }
+
+.input_view{
+   width:150px;
+        height: 40px;
+        margin: 5px;
+        border: 3px solid #8080ff;
+        border-radius: 50px;
+        outline: none;
+        font-family: sofia-pro-soft, sans-serif;
+        font-weight: 2px;
+        font-size: 20px;
+        text-align: center;
+        text-align-last: center;
+}
+
+.label-input-spacing {
+    margin-bottom: 10px; /* 원하는 간격으로 조절 */
+}
+
+.label-input-spacing1{
+	 margin-bottom: 20px; 
+}
+
+.con-container {
+	
+     	height:800px;
+    background-color: #f0f0f0;
+    align-items: center; /* 수직 중앙 정렬 */
+    text-align: center;
+	
+}
+
+.log-container {
+	
+  
+    background-color: #f0f0f0; 
+	
+}
+
+.font_pw{
+	 font-size: 20px;
+	  font-weight: bold;
+}
+
+.w-btn-gra1 {
+    background: linear-gradient(-45deg, #33ccff 0%, #ff99cc 100%);
+    color: #004080;
+    width:250px;
+    height:38px;
+     border: 1px solid white;
+        border-radius: 30px;
+    
+}
+.w-btn-gra-anim {
+    background-size: 400% 400%;
+    animation: gradient1 5s ease infinite;
+}
+@keyframes gradient1 {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes gradient2 {
+    0% {
+        background-position: 100% 50%;
+    }
+    50% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes ring {
+    0% {
+        width: 30px;
+        height: 30px;
+        opacity: 1;
+    }
+    100% {
+        width: 300px;
+        height: 300px;
+        opacity: 0;
+    }
+}
+
+/*상품등록 제출 버튼*/
+
+.w-btn:hover {
+    letter-spacing: 2px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.w-btn-outline:hover {
+    letter-spacing: 2px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.w-btn:active {
+    transform: scale(1.5);
+}
+
+.w-btn-outline:active {
+    transform: scale(1.5);
+}
+
+
+.w-btn-neon2 {
+    position: relative;
+    border: none;
+    min-width: 200px;
+    min-height: 50px;
+    background: linear-gradient(
+        90deg,
+        rgba(129, 230, 217, 1) 0%,
+        rgba(79, 209, 197, 1) 100%
+    );
+    border-radius: 1000px;
+    color: darkslategray;
+    cursor: pointer;
+    box-shadow: 12px 12px 24px rgba(79, 209, 197, 0.64);
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.w-btn-neon2:hover {
+    transform: scale(1.2);
+}
+
+.w-btn-neon2:hover::after {
+    content: "";
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    border: 6px solid #00ffcb;
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: ring 1.5s infinite;
+}
+/* Primary 버튼 스타일 수정 */
+/* .btn.btn-primary {
+    font-family: Poppins-Medium;
+    font-size: 15px;
+    text-transform: uppercase;
+    border: 1px solid #D3A47D;
+    background: -webkit-linear-gradient(right, #CCAEA7, #8C5D50);
+    width: 350px; 350px에서 100%로 수정
+   margin:0 auto;
+    color: #563834;
+}
+
+.btn.btn-primary:hover {
+    border: 1px solid #F6E1B4;
+    background-color: #362312;
+    color: white;
+}
+ */
+ 
+.w-btn-green {
+    background-color: #77af9c;
+    color: #d7fff1;
+   width:200px;
+     border-radius: 10%;
+}
+ .w-btn-green-outline {
+    border: 1px solid #77af9c;
+    color: darkgray;
+     border-radius: 10%;
+
+}
+
+
+.w-btn-green-outline:hover {
+    background-color: #77af9c;
+    color: #d7fff1;
+     border-radius: 10%;
+}
+ 
+/* Form-check 스타일 수정 */
+.form-check {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+/* Easy Login 스타일 수정 */
+.easy-login {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-weight: 800;
+}
+
+/* Google 및 Kakao 버튼 스타일 수정 */
+.btn-google
+ {
+ 	background:white;
+    border: 1px solid #191919;
+    font-size: 80%;
+    width: 170px;
+}
+
+.btn-kakao {
+	background:yellow;
+    border: 1px solid #191919;
+    font-size: 80%;
+    width: 170px;
+}
+
+
+/* Google 및 Kakao 버튼 이미지 스타일 수정 */
+.btn.btn-google.btn-lg img,
+.btn.btn-kakao.btn-lg img {
+    height: 1.05rem;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* 로그인 버튼 스타일 수정 */
+.login-button {
+    text-align: center;
+}
+
+/* 버튼 그룹 스타일 수정 */
+.button-group {
+    text-align: center;
+}
+
+/* Footer 스타일 수정 */
+.footer {
+	position: fixed;
+    bottom: 0;
+  
+    
+    text-align: center;
+    background-color: #ffe4e1;
+  
+    color: gray;
+  
+    height:60px;
+}
+
+/* Navbar 네비게이션 아이템 마진 수정 */
+.navbar-nav .nav-item {
+    margin-right: 20px; /* 50px에서 20px로 수정 */
+}
+
+/* Navbar 네비게이션 링크 스타일 수정 */
+.navbar .navbar-nav .nav-item,
+.custom-navbar .navbar-nav .nav-link {
+    color: #fff;
+    font-size: 1.1em;
+}
+
+/* Navbar 네비게이션 링크 호버 스타일 수정 */
+.navbar .navbar-nav .nav-link:hover,
+.custom-navbar .navbar-nav .nav-link:hover {
+    background-color: #3E2723;
+    color: #fff;
+      border-radius: 30px;
+}
+
+/* 테이블 헤더 및 행 배경색 스타일 수정 */
+.bs-danger-bg-subtle th {
+    background-color: #E0B88A;
+    color: #000;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #ffeedd;
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: #FEFFED;
+}
+
+
+
+/* Pagination 및 페이지 아이템 스타일 수정 */
+.pagination {
+    background-color: #E0B88A;
+}
+
+.pagination .page-link {
+    color: black;
+     height: 40px;
+}
+
+.page-item {
+    color: #613613;
+     height: 40px;
+}
+
+.page-item.active .page-link {
+    border: 1px solid #D3A47D;
+    background-color: #997950;
+    color: black;
+	height: 40px;
+}
+
+.page-item.disabled .page-link {
+    border: 1px solid #D3A47D;
+    background-color: #613613;
+    color: white;
+    height: 40px;
+}
+
+/*product detail button*/
+.w-btn-green {
+    background-color: #77af9c;
+    color: black;
+    
+    height:40px;
+}
+
+/* GOOGLE FONTS */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+/* VARIABLES CSS */
+:root {
+    --nav--width: 92px;
+
+    /* Colores */
+    --first-color: #4F709C;
+    --bg-color :#12192c;
+    --sub-color: #b6cefc;
+    --white-color: #fff;
+
+    /* Fuente y tipografia */
+    --body-font: 'Poppins', sans-serif;
+    --normal-font-size: 1rem;
+    --small-font-size: .875rem;
+
+    /* z index */
+    --z-fixed: 100;
+}
+
+/* BASE */
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+
+
+.body1 {
+    position: relative;
+    margin: 0;
+    padding: 2rem 0 0 6.75rem;
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+    transition: .5s;
+}
+
+h1 {
+    margin: 0;display: flex;  justify-content: center; align-items: center;
+    
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* l NAV */
+.sidebar {
+    position: fixed;
+    top:91px;
+    left: 0;
+    width: var(--nav--width);
+    height: 93vh;
+    background-color: var(--bg-color);
+    color: var(--white-color);
+    padding: 1.5rem 1.5rem 2rem;
+    margin-right:50px;
+    transition: .5s;
+    z-index: var(--z-fixed);
+}
+
+/* NAV */
+.nav {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    
+}
+
+.nav__brand {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.nav__toggle {
+    font-size: 1.25rem;
+    padding: .75rem;
+    cursor: pointer;
+}
+
+.nav__logo {
+    color: var(--white-color);
+    font-weight: 600;
+}
+
+.nav__link {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    align-items: center;
+    column-gap: .75rem;
+    padding: .75rem;
+    color: var(--white-color);
+    border-radius: .5rem;
+    margin-bottom: 1rem;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.nav__link:hover {
+    background-color: var(--first-color);
+}
+
+.nav__icon {
+    font-size: 1.25rem;
+}
+
+.nav_name {
+    font-size: var(--small-font-size);
+}
+
+/* Expander menu */
+.expander {
+    width: calc(var(--nav--width) + 9.25rem);
+}
+
+/* Add padding body*/
+.body-pd {
+    padding: 0 0 0 16rem;
+}
+
+.expander .body-pd {
+    padding-top: 100px; /* 사이드바의 폭만큼 패딩 추가 */
+}
+
+/* Active links menu */
+.active {
+    background-color: transparent;
+}
+
+/* COLLAPSE */
+.collapse {
+    grid-template-columns: 20px max-content 1fr;
+}
+
+.collapse__link {
+    justify-self: flex-end;
+    transition: .5;
+}
+
+.collapse__menu {
+    display: none;
+    padding: .75rem 2.25rem;
+}
+
+.collapse__sublink {
+    color: var(--sub-color);
+    font-size: var(--small-font-size);
+}
+
+.collapse__sublink:hover {
+    color: var(--white-color);
+}
+
+/* Show collapse */
+.showCollapse {
+    display: block;
+}
+
+/* Rotate icon */
+.rotate {
+    transform: rotate(180deg);
+    transition: .5s;
+}
+/* 작은 화면 크기에서만 토글 버튼 표시 */
+@media (max-width: 768px) {
+    /* 토글 버튼 스타일 */
+    .nav__toggle {
+        display: block; /* 토글 버튼 표시 */
+        cursor: pointer; /* 커서 모양 변경 */
+        font-size: 1.5rem; /* 아이콘 크기 조절 */
+    }
+    /* 사이드바 기본적으로 접힌 상태 */
+    .sidebar {
+        width: 0;
+        transition: width 0.3s;
+    }
+    /* 토글 버튼을 클릭하면 사이드바가 열리도록 설정 */
+    .sidebar.expander {
+        width: 250px; /* 원하는 사이드바 너비 지정 */
+    }
+    /* 사이드바 열린 상태에서 컨텐츠 영역 축소 */
+    .body-pd.expander {
+        padding-left: 250px; /* 사이드바 너비만큼 여백 추가 */
+    }
+}
+
+.Slidesbackground {
+    margin: 0;
+    padding: 0;
+    margin-bottom:10px;
+   
+
+}
+.slideshow-image{
+    border-radius:3%;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.mySlides {
+    border-radius:3%;
+    width: 600px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.5);
+    background-image: none; /* 배경 이미지 없음 */
+    background-color: transparent; /* 배경 색상 투명으로 설정 */
+}
+
+.slideshow-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin: auto;
+}
+
+.fade {
+    animation-name: fade;
+    animation-duration: 4.0s;
+}
+
+@keyframes fade {
+    from {
+        opacity: 4
+    }
+    to {
+        opacity: 1
+    }
+}
+
+/*프로덕트 디테일*/
+.horizontal-align-container {
+    display: flex;
+    justify-content: center;
+}
+
+.detail_1 {
+  
+    margin-right: 100px; /* 오른쪽 여백 추가 */
+}
+
